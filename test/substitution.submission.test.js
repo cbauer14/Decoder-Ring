@@ -1,7 +1,7 @@
 const { expect } = require("chai");
 const { substitution } = require("../src/substitution");
 
-describe("substitution() submission tests written by Thinkful", () => {
+describe("substitution() submission tests", () => {
   describe("error handling", () => {
     it("should return false if the substitution alphabet is missing", () => {
       const message = "message";
@@ -9,7 +9,7 @@ describe("substitution() submission tests written by Thinkful", () => {
       expect(actual).to.be.false;
     });
 
-    it("should return false if the substitution alphabet is not exactly 26 characters", () => {
+    it("should return false if the substitution alphabet is not 26 characters", () => {
       const message = "message";
       const alphabet = "short";
       const actual = substitution(message, alphabet);
@@ -43,7 +43,7 @@ describe("substitution() submission tests written by Thinkful", () => {
       expect(actual).to.equal(expected);
     });
 
-    it("should preserve spaces", () => {
+    it("should keep spaces", () => {
       const message = "my message";
       const alphabet = ".waeszrdxtfcygvuhbijnokmpl";
       const actual = substitution(message, alphabet);
@@ -72,7 +72,7 @@ describe("substitution() submission tests written by Thinkful", () => {
       expect(actual).to.equal(expected);
     });
 
-    it("should preserve spaces", () => {
+    it("should keep spaces", () => {
       const message = "yp ysii.rs";
       const alphabet = ".waeszrdxtfcygvuhbijnokmpl";
       const actual = substitution(message, alphabet, false);
