@@ -1,25 +1,63 @@
-function substitutionRenderer() {
-  const form = document.querySelector("#substitution");
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
+const substitutionModule = (function () {
+  const realAlphabet = "abcdefghijklmnopqrstuvwxyz";
 
-    const input = event.target["substitution-input"].value;
-    const direction = event.target["substitution-options"].value;
-    const alphabet = event.target["substitution-alphabet"].value;
-    const result =
-      direction === "encode"
-        ? substitutionModule.substitution(input, alphabet)
-        : substitutionModule.substitution(input, alphabet, false);
-
-    const alert = document.querySelector("#substitution-alert");
-    if (result) {
-      alert.classList.add("d-none");
-      const output = document.querySelector("#substitution-output");
-      output.innerHTML = result;
-    } else {
-      alert.classList.remove("d-none");
+  function substitution(input, alphabet, encode = true) {
+    if (!isValidAlphabet(alphabet)) {
+      return false;
     }
-  });
-}
 
-document.addEventListener("DOMContentLoaded", substitutionRenderer);
+    const lowerCaseInput = input.toLowerCase();
+    let result = "";
+
+    for (let i = 0; i < lowerCaseInput.length; i++) {
+      const currentChar = lowerCaseInput[i];
+
+      if (currentChar === " ") {
+        result += " ";
+        continue;
+      }
+
+      if (encode) {
+        const index = realAlphabet.indexOf(currentChar); // returns -1 if nothing is found otherwise the current index is returned 
+          
+        if (index !== -1) {
+          const substituteChar = alphabet[index];
+          result += substituteChar;
+        } else {
+          result += currentChar;
+        }
+      } else {
+        const index = alphabet.indexOf(currentChar);
+
+        if (index !== -1) {
+          const substituteChar = realAlphabet[index];
+          result += substituteChar;
+        } else {
+          result += currentChar;
+        }
+      }
+    }
+
+    return result;
+  }
+
+  function isValidAlphabet(alphabet) {
+    if (!alphabet || alphabet.length !== 26) {
+      return false;
+    }
+
+    const uniqueChars = new Set(alphabet); // eliminates duplicates and stores the new values
+
+    if (uniqueChars.size !== 26) { 
+      return false;
+    }
+
+    return true;
+  }
+
+  return {
+    substitution,
+  };
+})();
+
+module.exports = { substitution: substitutionModule.substitution };
